@@ -1,31 +1,33 @@
+require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const data = require('./data.js');
 const cors = require('cors');
 
-require('dotenv').config()
 const app = express();
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors());
-
+//fgdf
 app.use(function validateBearerToken(req, res, next) {
   const API_KEY = process.env.API_KEY;
   // console.log(req.get("Authorization")
   // move to next middleware
   const authVal = req.get('Authorization') || '';
   if (!authVal.startsWith('Bearer ')) {
+    return res.status(401).json({message: 'Bearer auth header missing'})
     
   }
-const token = 
-  if (token !=== API_KEY) {
+const token = authVal.split(' ')[1]
+  if (token !== API_KEY) {
   return res.status(401).json({ message: 'Invalid credentials' });
 }
+// console.log(req.get('Authorization'))
 next()
 })
 
-app.get('/move', (req, res) => {
+app.get('/movie', (req, res) => {
 let movieData = [...data];
 
   let { genre, country, avg_vote } = req.query;
